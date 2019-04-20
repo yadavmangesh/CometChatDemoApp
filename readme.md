@@ -1,4 +1,7 @@
-# This is a demo app for CometChat group chat implementation in Android
+# Android group chat using CometChat
+
+This demo app is displaying how to easily implement group chat in your Android app using CometChat pro SDK
+
 
 ## How to use:
 1. Install the latest Android studio
