@@ -36,12 +36,13 @@ class CreateGroupActivity : AppCompatActivity() {
         // Let's just assume group ID is going to be it's name for demo purposes
         // But without all characters that are not allowed
         val re = Regex("[^A-Za-z0-9]")
-        val GUID = re.replace(groupName, "")
+        val guid = re.replace(groupName, "")
         val password = groupPasswordEditText.text.toString()
-        val group = Group(GUID, groupName, CometChatConstants.GROUP_TYPE_PUBLIC, password)
+        val group = Group(guid, groupName, CometChatConstants.GROUP_TYPE_PUBLIC, password)
 
         CometChat.createGroup(group, object : CometChat.CallbackListener<Group>() {
             override fun onSuccess(p0: Group?) {
+                // If the group is successfully created, return result "OK" so MainActivity can refresh the group list
                 Toast.makeText(this@CreateGroupActivity, "Successfully created group", Toast.LENGTH_SHORT).show()
                 setResult(Activity.RESULT_OK)
                 finish()

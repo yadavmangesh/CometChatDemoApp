@@ -26,11 +26,14 @@ class GroupsAdapter(val groups: List<Group>?, val context: Context) : RecyclerVi
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
         holder.groupNameTextView.text = groups!!.get(position).name
         val group = groups[position]
+        // Depending on whether the group is joined or not, display "JOINED" text or not
         if (group.isJoined) {
             holder.joinedTextView.visibility = View.VISIBLE
         } else {
             holder.joinedTextView.visibility = View.INVISIBLE
         }
+        // And if it's joined, go to that group details
+        // Otherwise try to join the group. This should always succeed though, because we're using PUBLIC groups only at this point
         holder.container.setOnClickListener {
             if (group.isJoined) {
                 goToGroupScreen(group)
@@ -41,9 +44,12 @@ class GroupsAdapter(val groups: List<Group>?, val context: Context) : RecyclerVi
     }
 
     private fun attemptJoinGroup(group: Group) {
+        // Try to join the group
         CometChat.joinGroup(group.guid, group.groupType, group.password, object : CometChat.CallbackListener<Group>() {
             override fun onSuccess(p0: Group?) {
                 groups!!.forEach {
+                    // If successful, in order the show "JOINED" on that group, go through all of them, find the one we just joined,
+                    // And set Joined = true
                     if (it.guid == group.guid) {
                         it.setHasJoined(true)
                         notifyDataSetChanged()

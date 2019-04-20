@@ -20,8 +20,6 @@ class MainActivity : AppCompatActivity() {
     private val CREATE_GROUP = 1
 
     val TAG = "MainActivity"
-    val apiKey = "40699368e14447dfe1f45d5168fae2850473ce7e"
-    val appID = "18299f79cc590e"
 
     lateinit var createGroupButton: Button
     lateinit var groupsRecyclerView: RecyclerView
@@ -39,11 +37,16 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == CREATE_GROUP) {
+            // This happens if we've just created another group
+            // Then we should refresh groups
+            // Could've used onResume but then it would always refresh
             refreshGroupList()
         }
     }
 
     private fun refreshGroupList() {
+        // Get all the groups visible to this user
+        // Since we're working with public groups only, all users should see all of them
         var groupRequest: GroupsRequest? = GroupsRequest.GroupsRequestBuilder().build()
 
         groupRequest?.fetchNext(object : CometChat.CallbackListener<List<Group>>() {
@@ -68,9 +71,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initCometChat() {
-        CometChat.init(this, appID, object : CometChat.CallbackListener<String>() {
+        // Initializes CometChat with the APP_ID from the dashboard
+
+        CometChat.init(this, GeneralConstans.APP_ID, object : CometChat.CallbackListener<String>() {
             override fun onSuccess(p0: String?) {
                 Log.d(TAG, "Initialization completed successfully")
+                // Upon success, login the dummy user, this is only for demo purposes
+                // In the real app, we would have a log in screen etc.
                 loginUser()
             }
 
@@ -81,8 +88,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loginUser() {
+        // This is where we can change which user gets logged in, again, in the real app or in some other version of this
+        // we might have a login screen or something, for now it's just using pre-created CometChat users
         val UID = "SUPERHERO5"
-        CometChat.login(UID, apiKey, object : CometChat.CallbackListener<User>() {
+        CometChat.login(UID, GeneralConstans.API_KEY, object : CometChat.CallbackListener<User>() {
             override fun onSuccess(user: User?) {
                 saveUser(user)
                 refreshGroupList()
@@ -96,6 +105,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveUser(user: User?) {
+        // In order to have the logged in user. There may be a better way for this, but I hadn't found it in the docs
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         sharedPreferences
             .edit()

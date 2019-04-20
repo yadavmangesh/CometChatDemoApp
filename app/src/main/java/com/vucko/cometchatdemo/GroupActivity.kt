@@ -42,6 +42,9 @@ class GroupActivity : AppCompatActivity() {
     }
 
     private fun getGroupDetails() {
+        // Get the details of the group, such as name, members and other data that may be used in the app later
+        // For now only the group name is used
+
         val groupId = intent.getStringExtra("group_id")
         CometChat.getGroup(groupId, object : CometChat.CallbackListener<Group>() {
             override fun onSuccess(p0: Group?) {
@@ -61,6 +64,7 @@ class GroupActivity : AppCompatActivity() {
     }
 
     private fun attemptSendMessage() {
+        // Attempts to send the message to the group by current user
         val text = messageEditText.text.toString()
         if (!TextUtils.isEmpty(text)) {
             messageEditText.text.clear()
@@ -89,10 +93,12 @@ class GroupActivity : AppCompatActivity() {
         messagesRecyclerView.smoothScrollToPosition(messagesAdapter.itemCount - 1)
     }
 
+    // Some random ID for the listener for now
     private val listenerID: String = "1234"
 
     override fun onResume() {
         super.onResume()
+        // Add the listener to listen for incoming messages in this screen
         CometChat.addMessageListener(listenerID,object :CometChat.MessageListener(){
 
             override fun onTextMessageReceived(message: TextMessage?) {

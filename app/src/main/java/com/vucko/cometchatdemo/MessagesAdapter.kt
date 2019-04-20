@@ -38,6 +38,9 @@ class MessagesAdapter(var messages: MutableList<TextMessage?>, val context: Cont
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         // Check if the sender is the current user
         val currentUserId = sharedPreferences.getString("user_id", null)
+
+        // If this is the current user's message, shift it to the right and paint it one color
+        // If it's another user's message, shift left and use another color
         if(currentUserId!! == messages[position]?.sender?.uid){
             holder.container.layoutParams = FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT, Gravity.RIGHT)
             holder.container.setCardBackgroundColor(context.resources.getColor(R.color.my_message_color))
