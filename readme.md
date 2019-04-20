@@ -2,8 +2,13 @@
 
 This demo app is displaying how to easily implement group chat in your Android app using CometChat pro SDK
 
+![The screenshot](https://github.com/MilanVucic/CometChatDemoApp/blob/master/cometchat_screenshot.png "Screenshot of the app in action")
 
-## How to use:
+## Technology
+- CometChat pro 1.3
+- Kotlin
+
+## Running the demo locally:
 1. Install the latest Android studio
 2. Clone the project
 3. Open the project in Android studio
@@ -20,3 +25,8 @@ This demo app is displaying how to easily implement group chat in your Android a
 - Tap on it to join the group
 - Tap again to enter the group chat
 - Start chatting
+
+## Useful links
+- [Android docs](https://prodocs.cometchat.com/docs/android-quick-start)
+- [Android groups docs](https://prodocs.cometchat.com/docs/android-groups)
+- Android tutorial (coming soon)
